@@ -1742,6 +1742,7 @@ function showTourStep() {
   const illo = document.getElementById("tour-illustration");
   const prevBtn = document.getElementById("btn-tour-prev");
   const nextBtn = document.getElementById("btn-tour-next");
+  const overlay = document.getElementById("tour-overlay");
 
   title.textContent = step.title;
   text.textContent = step.text;
@@ -1758,7 +1759,12 @@ function showTourStep() {
       highlightedEl = el;
       el.classList.add("tour-highlight");
       el.scrollIntoView({ behavior: "smooth", block: "center" });
+      overlay.classList.add("has-highlight");
+    } else {
+      overlay.classList.remove("has-highlight");
     }
+  } else {
+    overlay.classList.remove("has-highlight");
   }
 
   positionTourCard();
