@@ -250,7 +250,8 @@ function submitUsername() {
     returningToScreenAfterNameChange();
     returningToScreenAfterNameChange = null;
   } else {
-    initTutorial();
+    showHome();
+    initTour();
   }
 }
 
@@ -1670,151 +1671,200 @@ function startPresenceHeartbeat() {
 recordVisit();
 startPresenceHeartbeat();
 // =====================================================================
-// ONBOARDING TUTORIAL
+// ONBOARDING TOUR
 // =====================================================================
 
-const tutorialSlides = [
+const TOUR_STEPS = [
   {
-    image: "./assets/tutorial/slide-1.png",
-    title: "Welcome to GBR Jr. Museum!",
-    text: "Get ready for an interactive AR scavenger hunt. Scan artworks, take quizzes, and collect badges along the way. Tap Next to learn how it works!",
+    target: null,
+    illustration: "🖼️",
+    title: "Welcome to Museum AR Collection!",
+    text: "Your personal gallery awaits. Scan artworks with AR to unlock hidden stories, take quizzes, and collect badges along the way.",
   },
   {
-    image: "./assets/tutorial/slide-2.png",
-    title: "Open the AR Camera",
-    text: "Tap the 📷 AR Camera button in the bottom navigation to launch the scanner. Make sure you allow camera access when prompted.",
+    target: "#gallery-grid",
+    illustration: "🔒",
+    title: "Artwork Cards",
+    text: "These cards represent real artworks on display. Locked ones are hidden until you scan them with the AR camera.",
   },
   {
-    image: "./assets/tutorial/slide-3.png",
-    title: "Scan an Artwork",
-    text: "Point your camera at any artwork on display. The app will recognize it and unlock its hidden story. Look for the golden viewfinder!",
+    target: ".filter-row",
+    illustration: "⚡",
+    title: "Quick Filters",
+    text: "Switch between Locked and Unlocked to see what's left to discover or admire what you've already found.",
   },
   {
-    image: "./assets/tutorial/slide-4.png",
-    title: "Discover the Story",
-    text: "Once scanned, the artwork unlocks! Read about its history, artist, and significance. You can revisit it anytime from your collection.",
+    target: ".progress-row",
+    illustration: "📊",
+    title: "Track Your Progress",
+    text: "Watch your completion bar fill up as you unlock artworks. Complete them all to earn a spot on the leaderboard!",
   },
   {
-    image: "./assets/tutorial/slide-5.png",
-    title: "Earn Badges & Climb the Board",
-    text: "Collect badges by scanning your first artwork and completing quizzes. Your completion time gets you on the leaderboard — race to the top!",
+    target: ".corner-fabs-left",
+    illustration: "🏅",
+    title: "Badges & Library",
+    text: "View your earned badges, browse the full artwork library (no camera needed), or change your display name anytime.",
   },
   {
-    image: "./assets/tutorial/slide-6.png",
-    title: "Locked, Unlocked & Quizzes",
-    text: "Locked artworks are hidden until you scan them. Complete ALL quizzes to unlock the guestbook and leave your mark on the board!",
+    target: "#bottom-nav",
+    illustration: "📷",
+    title: "AR Camera",
+    text: "Tap the AR Camera tab to launch the scanner. Point your camera at any artwork to instantly unlock its story!",
   },
   {
-    image: "./assets/tutorial/slide-7.png",
-    title: "Happy Hunting!",
-    text: "Not every artwork is part of the scavenger hunt — some are hidden gems! Do your best, explore every corner, and unlock everything. Good luck!",
+    target: null,
+    illustration: "🎉",
+    title: "You're All Set!",
+    text: "Start exploring, scan your first artwork, and race to the top of the leaderboard. Happy hunting!",
   },
 ];
 
-let currentTutorialSlide = 0;
+let currentTourStep = 0;
+let highlightedEl = null;
 
-function initTutorial() {
-  renderTutorialSlides();
-  document.getElementById("tutorial-overlay").classList.remove("hidden");
-  currentTutorialSlide = 0;
-  updateTutorialSlide();
+function initTour() {
+  if (localStorage.getItem("museum_tour_seen")) {
+    showHome();
+    bottomNav.classList.remove("hidden");
+    return;
+  }
+  currentTourStep = 0;
+  renderTourDots();
+  showTourStep();
+  document.getElementById("tour-overlay").classList.remove("hidden");
 }
 
-function renderTutorialSlides() {
-  const container = document.getElementById("tutorial-slides");
-  const dotsContainer = document.getElementById("tutorial-dots");
+function showTourStep() {
+  const step = TOUR_STEPS[currentTourStep];
+  const title = document.getElementById("tour-title");
+  const text = document.getElementById("tour-text");
+  const count = document.getElementById("tour-step-count");
+  const illo = document.getElementById("tour-illustration");
+  const prevBtn = document.getElementById("btn-tour-prev");
+  const nextBtn = document.getElementById("btn-tour-next");
 
-  container.innerHTML = tutorialSlides
-    .map(
-      (slide, i) => `
-    <div class="tutorial-slide ${i === 0 ? "active" : ""}" data-index="${i}">
-      <img class="tutorial-slide-img" src="${slide.image}" alt="" onerror="this.style.display='none'" />
-      <h3>${escapeHtml(slide.title)}</h3>
-      <p>${escapeHtml(slide.text)}</p>
-    </div>`
-    )
-    .join("");
+  title.textContent = step.title;
+  text.textContent = step.text;
+  count.textContent = `${currentTourStep + 1} / ${TOUR_STEPS.length}`;
+  illo.textContent = step.illustration;
 
-  dotsContainer.innerHTML = tutorialSlides
-    .map((_, i) => `<div class="tutorial-dot ${i === 0 ? "active" : ""}" data-index="${i}"></div>`)
-    .join("");
+  prevBtn.classList.toggle("hidden", currentTourStep === 0);
+  nextBtn.textContent = currentTourStep === TOUR_STEPS.length - 1 ? "Get Started 🎉" : "Next →";
 
-  updateTutorialNav();
-}
+  clearTourHighlight();
+  if (step.target) {
+    const el = document.querySelector(step.target);
+    if (el) {
+      highlightedEl = el;
+      el.classList.add("tour-highlight");
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }
 
-function updateTutorialSlide() {
-  const slides = document.querySelectorAll(".tutorial-slide");
-  const dots = document.querySelectorAll(".tutorial-dot");
+  positionTourCard();
 
-  slides.forEach((slide, i) => {
-    slide.classList.remove("active", "prev");
-    if (i === currentTutorialSlide) slide.classList.add("active");
-    else if (i < currentTutorialSlide) slide.classList.add("prev");
+  document.querySelectorAll(".tour-dot").forEach((d, i) => {
+    d.classList.toggle("active", i === currentTourStep);
   });
-
-  dots.forEach((dot, i) => {
-    dot.classList.toggle("active", i === currentTutorialSlide);
-  });
-
-  updateTutorialNav();
 }
 
-function updateTutorialNav() {
-  const prevBtn = document.getElementById("btn-tutorial-prev");
-  const nextBtn = document.getElementById("btn-tutorial-next");
+function positionTourCard() {
+  const card = document.getElementById("tour-card");
+  const step = TOUR_STEPS[currentTourStep];
 
-  prevBtn.classList.toggle("hidden", currentTutorialSlide === 0);
-  nextBtn.textContent =
-    currentTutorialSlide === tutorialSlides.length - 1 ? "Get Started 🎉" : "Next →";
+  card.style.top = "";
+  card.style.bottom = "";
+  card.style.transform = "";
+
+  if (!step.target) {
+    card.style.top = "50%";
+    card.style.transform = "translateY(-50%)";
+    return;
+  }
+
+  card.style.bottom = "calc(var(--nav-height) + 20px)";
+  card.style.top = "auto";
+
+  if (highlightedEl) {
+    const rect = highlightedEl.getBoundingClientRect();
+    const viewportCenter = window.innerHeight / 2;
+    if (rect.top > viewportCenter) {
+      card.style.bottom = "auto";
+      card.style.top = "max(20px, env(safe-area-inset-top))";
+      card.style.transform = "none";
+    }
+  }
 }
 
-function nextTutorialSlide() {
-  if (currentTutorialSlide < tutorialSlides.length - 1) {
-    currentTutorialSlide++;
-    updateTutorialSlide();
+function clearTourHighlight() {
+  if (highlightedEl) {
+    highlightedEl.classList.remove("tour-highlight");
+    highlightedEl = null;
+  }
+}
+
+function renderTourDots() {
+  const container = document.getElementById("tour-dots");
+  container.innerHTML = TOUR_STEPS.map((_, i) =>
+    `<div class="tour-dot ${i === 0 ? "active" : ""}" data-index="${i}"></div>`
+  ).join("");
+}
+
+function nextTourStep() {
+  if (currentTourStep < TOUR_STEPS.length - 1) {
+    currentTourStep++;
+    showTourStep();
   } else {
-    hideTutorial();
+    hideTour();
   }
 }
 
-function prevTutorialSlide() {
-  if (currentTutorialSlide > 0) {
-    currentTutorialSlide--;
-    updateTutorialSlide();
+function prevTourStep() {
+  if (currentTourStep > 0) {
+    currentTourStep--;
+    showTourStep();
   }
 }
 
-function hideTutorial() {
-  document.getElementById("tutorial-overlay").classList.add("hidden");
+function hideTour() {
+  localStorage.setItem("museum_tour_seen", "1");
+  clearTourHighlight();
+  document.getElementById("tour-overlay").classList.add("hidden");
   showHome();
   bottomNav.classList.remove("hidden");
 }
 
-// Tutorial controls
-document.getElementById("btn-tutorial-next").addEventListener("click", nextTutorialSlide);
-document.getElementById("btn-tutorial-prev").addEventListener("click", prevTutorialSlide);
-document.getElementById("btn-tutorial-skip").addEventListener("click", hideTutorial);
+// Tour controls
+document.getElementById("btn-tour-next").addEventListener("click", nextTourStep);
+document.getElementById("btn-tour-prev").addEventListener("click", prevTourStep);
+document.getElementById("btn-tour-skip").addEventListener("click", hideTour);
 
-// Swipe support for mobile
-(function initTutorialSwipe() {
-  const overlay = document.getElementById("tutorial-overlay");
+// Swipe support
+(function initTourSwipe() {
+  const overlay = document.getElementById("tour-overlay");
   let startX = 0;
-
   overlay.addEventListener("touchstart", (e) => {
     if (overlay.classList.contains("hidden")) return;
     startX = e.touches[0].clientX;
   }, { passive: true });
-
   overlay.addEventListener("touchend", (e) => {
     if (overlay.classList.contains("hidden")) return;
     const endX = e.changedTouches[0].clientX;
     const diff = startX - endX;
     if (Math.abs(diff) > 50) {
-      if (diff > 0) nextTutorialSlide();
-      else prevTutorialSlide();
+      if (diff > 0) nextTourStep();
+      else prevTourStep();
     }
   }, { passive: true });
 })();
+
+// Reposition on resize
+window.addEventListener("resize", () => {
+  const overlay = document.getElementById("tour-overlay");
+  if (overlay && !overlay.classList.contains("hidden")) {
+    positionTourCard();
+  }
+});
 // =====================================================================
 // BOOT
 // =====================================================================
