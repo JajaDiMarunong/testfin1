@@ -69,6 +69,49 @@ const BUILTIN_ARTWORKS = [
     quizCompleted: false,
     quiz: [],
   },
+    {
+    id: "builtin-crisanto",
+    name: "Portrait of Crisanto de los Reyes y Mendoza",
+    image: "./assets/crisanto-marker.jpg",
+    artist: "Rafael del Casal",
+    year: "Undated",
+    location: "GBR Jr. Museum, General Trias, Philippines",
+    details:
+      "Crisanto de los Reyes was born on October 25, 1828 to a Chinese mestizo couple " +
+      "Gregorio de los Reyes and Dominga Mendoza of Quiapo. From his salary as a tenedor de libros " +
+      "(book-keeper) he got into the business of buying scrap metals, later acquiring properties in " +
+      "Binondo which he converted into almacenes (warehouses). He married Dorotea de los Reyes y Vergara " +
+      "and bore five children. Among his businesses was a distillery of ylang-ylang (Cananga odorata) oil, " +
+      "a sought-after ingredient for French perfumes, and a tobacco factory along Calle Alix (present-day Legarda). " +
+      "He was implicated in the 1872 Cavite Mutiny and exiled to Cartagena, Spain, returning in 1877 after " +
+      "an amnesty from King Alfonso XII. He died on July 4, 1895. In 2007, Republic Act No. 9476 renamed " +
+      "the Gen. Trias – Amadeo – Tagaytay Road (formerly Governor's Drive) to Crisanto M. De los Reyes.\n\n" +
+      "Portrait of Crisanto de los Reyes y Mendoza\nRafael del Casal\nOil on canvas\nUndated",
+    markerImage: "./assets/crisanto-marker.jpg",
+    modelObj: "./assets/crisanto.glb",
+    modelMtl: null,
+    baseScale: 0.05,
+    icon: "🎨",
+    unlocked: false,
+    quizCompleted: false,
+    quiz: [
+      {
+        question: "Who painted the Portrait of Crisanto de los Reyes y Mendoza?",
+        options: ["Juan Luna", "Rafael del Casal", "Fernando Amorsolo", "Felix Resurreccion Hidalgo"],
+        correctIndex: 1,
+      },
+      {
+        question: "Crisanto de los Reyes was implicated in which historical event?",
+        options: ["The Philippine Revolution of 1896", "The 1872 Cavite Mutiny", "The Gomburza execution", "The Cry of Pugad Lawin"],
+        correctIndex: 1,
+      },
+      {
+        question: "Which of Crisanto's businesses produced an ingredient used in French perfumes?",
+        options: ["Sugar plantation", "Ylang-ylang oil distillery", "Coffee roasting factory", "Coconut oil mill"],
+        correctIndex: 1,
+      },
+    ],
+  },
 
 ];
 
@@ -1477,11 +1520,18 @@ function getOrCreateModelEntity(art, targetIndex, targetEl) {
 
   modelEl = document.createElement("a-entity");
   modelEl.setAttribute("id", `model-${targetIndex}`);
-  modelEl.setAttribute(
-    "obj-model",
-    `obj: ${art.modelObj};${art.modelMtl ? ` mtl: ${art.modelMtl};` : ""}`
-  );
-  modelEl.setAttribute("material", "side: double");
+
+  const isGltf = art.modelObj.match(/\.(glb|gltf)$/i);
+  if (isGltf) {
+    modelEl.setAttribute("gltf-model", art.modelObj);
+  } else {
+    modelEl.setAttribute(
+      "obj-model",
+      `obj: ${art.modelObj};${art.modelMtl ? ` mtl: ${art.modelMtl};` : ""}`
+    );
+    modelEl.setAttribute("material", "side: double");
+  }
+
   modelEl.setAttribute("position", "0 0 0.1");
   modelEl.setAttribute("rotation", "0 0 0");
   modelEl.setAttribute("scale", `${art.baseScale} ${art.baseScale} ${art.baseScale}`);
