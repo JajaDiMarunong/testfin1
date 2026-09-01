@@ -796,7 +796,7 @@ button.corner-fabs-right {
   left: 20px;
   right: 20px;
   bottom: calc(var(--nav-height) + 20px);
-  z-index: 29;
+  z-index: 37;
   background: var(--panel);
   border: 1px solid var(--frame-gold-dim);
   border-radius: 20px;
