@@ -751,7 +751,6 @@ button.corner-fabs-right {
   inset: 0;
   z-index: 35;
   background: rgba(6, 5, 5, 0.78);
-  backdrop-filter: blur(2px);
   display: flex;
   flex-direction: column;
   align-items: center;
