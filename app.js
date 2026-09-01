@@ -1728,6 +1728,13 @@ function initTour() {
     bottomNav.classList.remove("hidden");
     return;
   }
+
+  // Don't start the tour until the loading screen is finished
+  if (!loadingScreen.classList.contains("hidden")) {
+    setTimeout(initTour, 200);
+    return;
+  }
+
   currentTourStep = 0;
   renderTourDots();
   showTourStep();
