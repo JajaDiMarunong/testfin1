@@ -34,25 +34,22 @@
     </div>
   </div>
 
-
   <!-- ============================================================
-       ONBOARDING TUTORIAL (popup over the home screen)
+       ONBOARDING TOUR
        ============================================================ -->
-  <div id="tutorial-overlay" class="modal-overlay hidden">
-    <div class="tutorial-card">
-      <!-- Progress dots -->
-      <div class="tutorial-dots" id="tutorial-dots"></div>
-
-      <!-- Close / Skip -->
-      <button id="btn-tutorial-skip" class="tutorial-skip">Skip</button>
-
-      <!-- Slides container -->
-      <div class="tutorial-slides" id="tutorial-slides"></div>
-
-      <!-- Navigation -->
-      <div class="tutorial-nav">
-        <button id="btn-tutorial-prev" class="btn-secondary btn-small">← Back</button>
-        <button id="btn-tutorial-next" class="btn-primary btn-small">Next →</button>
+  <div id="tour-overlay" class="tour-overlay hidden">
+    <div class="tour-card" id="tour-card">
+      <div class="tour-header">
+        <span class="tour-step-count" id="tour-step-count">1 / 7</span>
+        <button id="btn-tour-skip" class="tour-skip">Skip</button>
+      </div>
+      <div class="tour-illustration" id="tour-illustration">🖼️</div>
+      <h3 id="tour-title">Welcome</h3>
+      <p id="tour-text" class="tour-text">...</p>
+      <div class="tour-dots" id="tour-dots"></div>
+      <div class="tour-nav">
+        <button id="btn-tour-prev" class="btn-secondary btn-small">← Back</button>
+        <button id="btn-tour-next" class="btn-primary btn-small">Next →</button>
       </div>
     </div>
   </div>
