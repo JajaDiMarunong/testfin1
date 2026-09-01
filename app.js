@@ -90,7 +90,7 @@ const BUILTIN_ARTWORKS = [
     markerImage: "./assets/crisanto-marker.jpg",
     modelObj: "./assets/crisanto.glb",
     modelMtl: null,
-    baseScale: 0.05,
+    baseScale: 1,
     icon: "🎨",
     unlocked: false,
     quizCompleted: false,
