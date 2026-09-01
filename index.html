@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
 <title>Museum AR Collection</title>
-<link rel="stylesheet" href="style.css?v=19" />
+<link rel="stylesheet" href="style.css?v=20" />
 <script src="https://aframe.io/releases/1.5.0/aframe.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js" defer></script>
 <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v7.0.0/dist/aframe-extras.min.js" defer></script>
@@ -36,7 +36,7 @@
 
 
   <!-- ============================================================
-       ONBOARDING TUTORIAL
+       ONBOARDING TUTORIAL (popup over the home screen)
        ============================================================ -->
   <div id="tutorial-overlay" class="modal-overlay hidden">
     <div class="tutorial-card">
@@ -44,7 +44,7 @@
       <div class="tutorial-dots" id="tutorial-dots"></div>
 
       <!-- Close / Skip -->
-      <button id="btn-tutorial-skip" class="tutorial-skip">Skip Tutorial</button>
+      <button id="btn-tutorial-skip" class="tutorial-skip">Skip</button>
 
       <!-- Slides container -->
       <div class="tutorial-slides" id="tutorial-slides"></div>
@@ -178,6 +178,14 @@
           <div>
             <h4>Change Display Name</h4>
             <p id="settings-current-name">Currently: —</p>
+          </div>
+          <span class="settings-arrow">›</span>
+        </div>
+
+        <div class="settings-row" id="settings-replay-tutorial">
+          <div>
+            <h4>Replay Tutorial</h4>
+            <p>See the how-to-use walkthrough again</p>
           </div>
           <span class="settings-arrow">›</span>
         </div>
@@ -405,6 +413,6 @@
     <p>Please allow camera access and reload. This must be opened over HTTPS (or localhost) on your device.</p>
   </div>
 
-  <script src="app.js?v=19" defer></script>
+  <script src="app.js?v=20" defer></script>
 </body>
 </html>
