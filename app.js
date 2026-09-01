@@ -47,28 +47,6 @@ const BUILTIN_ARTWORKS = [
       },
     ],
   },
-  {
-    id: "builtin-kiss",
-    name: "The Kiss",
-    image: "./assets/the-kiss.jpg",
-    artist: "Gustav Klimt",
-    year: "1907–1908",
-    location: "Österreichische Galerie Belvedere, Vienna, Austria",
-    details:
-      "Gustav Klimt painted The Kiss between 1907 and 1908, during what's often called his " +
-      "\"Golden Phase\" for its extensive use of gold leaf. It shows an entwined couple kneeling " +
-      "at the edge of a flower-covered meadow, their bodies wrapped in an elaborate mosaic of " +
-      "gold, ornament, and pattern that blurs the line between clothing and abstract design. " +
-      "It remains one of the defining images of the Vienna Secession movement and today hangs " +
-      "in the Österreichische Galerie Belvedere in Vienna, Austria.",
-    markerImage: "./assets/the-kiss.jpg",
-    modelObj: null,
-    baseScale: 0.06,
-    icon: "💛",
-    unlocked: false,
-    quizCompleted: false,
-    quiz: [],
-  },
     {
     id: "builtin-crisanto",
     name: "Portrait of Crisanto de los Reyes y Mendoza",
