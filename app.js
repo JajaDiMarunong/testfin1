@@ -1835,26 +1835,26 @@ function positionTourCard() {
   const card = document.getElementById("tour-card");
   const step = TOUR_STEPS[currentTourStep];
 
+  // Reset
   card.style.top = "";
   card.style.bottom = "";
   card.style.transform = "";
 
-  if (!step.target) {
+  const isShortScreen = window.innerHeight <= 600;
+  const centerVertically = !step.target || isShortScreen;
+
+  if (centerVertically) {
     card.style.top = "50%";
     card.style.transform = "translateY(-50%)";
-    return;
-  }
+  } else {
+    card.style.bottom = "calc(var(--nav-height) + max(16px, env(safe-area-inset-bottom)))";
 
-  card.style.bottom = "calc(var(--nav-height) + 20px)";
-  card.style.top = "auto";
-
-  if (highlightedEl) {
-    const rect = highlightedEl.getBoundingClientRect();
-    const viewportCenter = window.innerHeight / 2;
-    if (rect.top > viewportCenter) {
-      card.style.bottom = "auto";
-      card.style.top = "max(20px, env(safe-area-inset-top))";
-      card.style.transform = "none";
+    if (highlightedEl) {
+      const rect = highlightedEl.getBoundingClientRect();
+      if (rect.top > window.innerHeight / 2) {
+        card.style.bottom = "auto";
+        card.style.top = "max(16px, env(safe-area-inset-top))";
+      }
     }
   }
 }
