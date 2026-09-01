@@ -1835,15 +1835,14 @@ function positionTourCard() {
   const card = document.getElementById("tour-card");
   const step = TOUR_STEPS[currentTourStep];
 
-  // Reset
   card.style.top = "";
   card.style.bottom = "";
   card.style.transform = "";
 
-  const isShortScreen = window.innerHeight <= 600;
-  const centerVertically = !step.target || isShortScreen;
+  const isShort = window.innerHeight <= 640;
+  const noTarget = !step.target;
 
-  if (centerVertically) {
+  if (noTarget || isShort) {
     card.style.top = "50%";
     card.style.transform = "translateY(-50%)";
   } else {
@@ -1854,6 +1853,7 @@ function positionTourCard() {
       if (rect.top > window.innerHeight / 2) {
         card.style.bottom = "auto";
         card.style.top = "max(16px, env(safe-area-inset-top))";
+        card.style.transform = "none";
       }
     }
   }
