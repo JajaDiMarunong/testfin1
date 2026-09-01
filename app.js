@@ -594,7 +594,7 @@ btnLibraryDetailClose.addEventListener("click", () => libraryDetailModal.classLi
 // =====================================================================
 // KUYA DAVON — AI CHAT (Groq API)
 // =====================================================================
-const GROQ_API_KEY = "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";
+const GROQ_API_KEY = "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";
 // Preferred models in order of preference. The app will auto-discover
 // what's actually available from Groq and pick the first match.
 const PREFERRED_MODELS = [
