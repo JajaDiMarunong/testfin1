@@ -898,3 +898,7 @@ button.corner-fabs-right {
   margin-top: 0;
   flex: 1;
 }
+.tour-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
