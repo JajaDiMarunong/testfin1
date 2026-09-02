@@ -90,6 +90,24 @@ const BUILTIN_ARTWORKS = [
       },
     ],
   },
+    {
+    id: "builtin-mcarthur",
+    name: "MacArthur",
+    image: "./assets/mcarthurmarker.jpg",
+    artist: "",
+    year: "",
+    location: "",
+    details: "Add the MacArthur artwork description here.",
+    markerImage: "./assets/mcarthurmarker.jpg",
+    modelObj: "./assets/mcarthur.glb",
+    modelMtl: null,
+    baseScale: 1,
+    icon: "🎖️",
+    unlocked: false,
+    quizCompleted: false,
+    quiz: [],
+    immersiveSkybox: "./assets/beachskybox.glb",
+  },
 
 ];
 
@@ -245,6 +263,10 @@ const noteViewName = document.getElementById("note-view-name");
 const btnNoteViewClose = document.getElementById("btn-note-view-close");
 
 const arContainer = document.getElementById("ar-container");
+const screenImmersive = document.getElementById("screen-immersive");
+const immersiveContainer = document.getElementById("immersive-container");
+const btnImmersiveBack = document.getElementById("btn-immersive-back");
+const btnImmersive = document.getElementById("btn-immersive");
 
 // -------------------------------------------------------------------
 // Username / session
@@ -427,6 +449,7 @@ function hideAllScreens() {
   screenLeaderboard.classList.add("hidden");
   screenLibrary.classList.add("hidden");
   screenSettings.classList.add("hidden");
+  screenImmersive.classList.add("hidden");
 }
 
 function showHome() {
@@ -489,6 +512,7 @@ btnOpenLibrary.addEventListener("click", showLibrary);
 btnLibraryBack.addEventListener("click", showHome);
 btnOpenSettings.addEventListener("click", showSettings);
 btnSettingsBack.addEventListener("click", showHome);
+btnImmersiveBack.addEventListener("click", exitImmersive);
 
 function showUnlockModal(art) {
   modalTitle.textContent = art.name;
@@ -748,6 +772,9 @@ function openDetail(artworkId) {
   const hasQuiz = art.quiz && art.quiz.length > 0;
   btnTakeQuiz.style.display = hasQuiz ? "block" : "none";
   quizDoneNote.classList.toggle("hidden", !art.quizCompleted);
+  const hasImmersive = !!art.immersiveSkybox;
+  btnImmersive.classList.toggle("hidden", !hasImmersive);
+  btnImmersive.onclick = () => startImmersive(art);
 
   hideAllScreens();
   screenDetail.classList.remove("hidden");
@@ -1906,6 +1933,32 @@ window.addEventListener("resize", () => {
     positionTourCard();
   }
 });
+// -------------------------------------------------------------------
+// Immersive Mode (markerless skybox)
+// -------------------------------------------------------------------
+function startImmersive(art) {
+  hideAllScreens();
+  screenImmersive.classList.remove("hidden");
+  bottomNav.classList.add("hidden");
+  setBgLayerForScreen(true);
+
+  immersiveContainer.innerHTML = `
+    <a-scene embedded vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+      <a-entity camera look-controls="touchEnabled: true; mouseEnabled: true" position="0 1.6 0"></a-entity>
+      <a-entity gltf-model="${art.immersiveSkybox}" position="0 0 0" scale="100 100 100"></a-entity>
+      <a-entity gltf-model="${art.modelObj}" position="0 0 -3" rotation="0 0 0" scale="${art.baseScale} ${art.baseScale} ${art.baseScale}"></a-entity>
+      <a-light type="ambient" color="#ffffff" intensity="0.6"></a-light>
+      <a-light type="directional" color="#ffffff" intensity="0.4" position="-1 2 1"></a-light>
+    </a-scene>
+  `;
+}
+
+function exitImmersive() {
+  immersiveContainer.innerHTML = "";
+  setBgLayerForScreen(false);
+  if (currentDetailArtId !== null) openDetail(currentDetailArtId);
+  else showHome();
+}
 // =====================================================================
 // BOOT
 // =====================================================================
