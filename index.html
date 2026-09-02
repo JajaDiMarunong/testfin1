@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
 <title>Museum AR Collection</title>
-<link rel="stylesheet" href="style.css?v=20" />
+<link rel="stylesheet" href="style.css?v=21" />
 <script src="https://aframe.io/releases/1.5.0/aframe.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js" defer></script>
 <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v7.0.0/dist/aframe-extras.min.js" defer></script>
@@ -121,6 +121,7 @@
         <h2 id="detail-title">—</h2>
         <p id="detail-text" class="detail-text">—</p>
         <button id="btn-take-quiz" class="btn-primary">Take the Quiz</button>
+        <button id="btn-immersive" class="btn-primary hidden">Enter Immersive View</button>
         <p id="quiz-done-note" class="quiz-done-note hidden">✓ Quiz completed</p>
       </div>
     </div>
@@ -240,6 +241,16 @@
         <p id="notes-locked-msg" class="notes-locked-msg">Complete all badges to add a note to the board.</p>
       </div>
     </div>
+  </section>
+
+  <!-- ============================================================
+       IMMERSIVE AR SCREEN (markerless, inside skybox)
+       ============================================================ -->
+  <section id="screen-immersive" class="screen hidden">
+    <div class="immersive-topbar">
+      <button id="btn-immersive-back" class="btn-icon">← Exit Immersive</button>
+    </div>
+    <div id="immersive-container"></div>
   </section>
 
   <!-- ============================================================
@@ -410,6 +421,6 @@
     <p>Please allow camera access and reload. This must be opened over HTTPS (or localhost) on your device.</p>
   </div>
 
-  <script src="app.js?v=20" defer></script>
+  <script src="app.js?v=21" defer></script>
 </body>
 </html>
