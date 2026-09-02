@@ -108,7 +108,7 @@ const BUILTIN_ARTWORKS = [
     quiz: [],
     immersiveSkybox: "./assets/beachskybox.glb",
     immersiveScale: 5,       
-    immersiveRotation: "0 90 0", 
+    immersiveRotation: "0 180 0", 
   },
 
 ];
