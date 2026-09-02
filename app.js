@@ -108,7 +108,8 @@ const BUILTIN_ARTWORKS = [
     quiz: [],
     immersiveSkybox: "./assets/beachskybox.glb",
     immersiveScale: 5,       
-    immersiveRotation: "0 270 0", 
+    immersiveRotation: "0 270 0",
+    markerRotation: "0 270 0",   
   },
 
 ];
@@ -1540,7 +1541,7 @@ function getOrCreateModelEntity(art, targetIndex, targetEl) {
   }
 
   modelEl.setAttribute("position", "0 0 0.1");
-  modelEl.setAttribute("rotation", "0 0 0");
+  modelEl.setAttribute("rotation", art.markerRotation || "0 0 0");
   modelEl.setAttribute("scale", `${art.baseScale} ${art.baseScale} ${art.baseScale}`);
   modelEl.addEventListener("model-error", (e) =>
     console.error(`"${art.name}" model failed to load:`, e.detail)
