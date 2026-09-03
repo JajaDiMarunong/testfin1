@@ -68,8 +68,11 @@ const BUILTIN_ARTWORKS = [
     markerImage: "./assets/crisanto-marker.jpg",
     modelObj: "./assets/crisanto.glb",
     modelMtl: null,
-    baseScale: 1,
+    baseScale: 0.5,
     icon: "🎨",
+    immersiveSkybox: "./assets/crisantoskybox.glb",
+    immersiveScale: 1.8,
+    immersiveRotation: "0 0 0",
     unlocked: false,
     quizCompleted: false,
     quiz: [
