@@ -2009,8 +2009,8 @@ AFRAME.registerComponent("joystick-movement", {
     const right = new THREE.Vector3();
     right.crossVectors(dir, new THREE.Vector3(0, 1, 0)).normalize();
     const s = this.data.speed * dt;
-    cam.position.add(dir.multiplyScalar(-this.moveVector.y * s));
-    cam.position.add(right.multiplyScalar(this.moveVector.x * s));
+    cam.position.add(dir.multiplyScalar(this.moveVector.y * s));
+    cam.position.add(right.multiplyScalar(-this.moveVector.x * s));
   },
 });
 function startImmersive(art) {
