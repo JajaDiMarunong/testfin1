@@ -1849,8 +1849,9 @@ function positionTourCard() {
 
   const isShort = window.innerHeight <= 640;
   const noTarget = !step.target;
+  const isBottomNav = step.target === "#bottom-nav";
 
-  if (noTarget || isShort) {
+  if (noTarget || isShort || isBottomNav) {
     card.style.top = "50%";
     card.style.transform = "translateY(-50%)";
   } else {
