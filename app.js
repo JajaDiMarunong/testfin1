@@ -2017,7 +2017,16 @@ AFRAME.registerComponent("joystick-movement", {
     cam.position.add(right.multiplyScalar(-this.moveVector.x * s));
   },
 });
-function startImmersive(art) {
+async function startImmersive(art) {
+  // iOS 13+ requires explicit permission for device orientation
+  if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+    try {
+      await DeviceOrientationEvent.requestPermission();
+    } catch (err) {
+      console.warn('Device orientation permission error:', err);
+    }
+  }
+
   hideAllScreens();
   screenImmersive.classList.remove("hidden");
   bottomNav.classList.add("hidden");
@@ -2025,7 +2034,7 @@ function startImmersive(art) {
 
   immersiveContainer.innerHTML = `
     <a-scene embedded vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
-      <a-entity camera look-controls="touchEnabled: true; mouseEnabled: true" joystick-movement="speed: 0.004" position="0 1.6 0"></a-entity>
+      <a-entity camera look-controls="touchEnabled: true; mouseEnabled: true; magicWindowTrackingEnabled: true" joystick-movement="speed: 0.004" position="0 1.6 0"></a-entity>
       <a-entity gltf-model="${art.immersiveSkybox}" position="0 0 0" scale="100 100 100"></a-entity>
       <a-entity gltf-model="${art.modelObj}" position="0 0 -3" rotation="${art.immersiveRotation || '0 0 0'}" scale="${art.immersiveScale || art.baseScale || 1} ${art.immersiveScale || art.baseScale || 1} ${art.immersiveScale || art.baseScale || 1}"></a-entity>
       <a-light type="ambient" color="#ffffff" intensity="0.6"></a-light>
