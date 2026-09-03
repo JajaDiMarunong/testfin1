@@ -71,7 +71,7 @@ const BUILTIN_ARTWORKS = [
     baseScale: 0.5,
     icon: "🎨",
     immersiveSkybox: "./assets/crisantoskybox.glb",
-    immersiveScale: 1.5,
+    immersiveScale: 1,
     immersiveRotation: "0 0 0",
     unlocked: false,
     quizCompleted: false,
