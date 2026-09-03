@@ -963,6 +963,22 @@ button.corner-fabs-right {
   pointer-events: none;
   box-shadow: 0 2px 8px rgba(0,0,0,0.3);
 }
+#loading-logo {
+  width: 130px;
+  height: auto;
+  margin-bottom: 18px;
+  animation: logoFloat 2.8s ease-in-out infinite, logoPulse 2.8s ease-in-out infinite;
+}
+
+@keyframes logoFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes logoPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
 .tour-overlay.hidden {
   opacity: 0;
   pointer-events: none;
