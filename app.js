@@ -233,6 +233,7 @@ const btnOpenSettings = document.getElementById("btn-open-settings");
 const btnSettingsBack = document.getElementById("btn-settings-back");
 const settingsCurrentName = document.getElementById("settings-current-name");
 const settingsChangeName = document.getElementById("settings-change-name");
+const settingsReplayTutorial = document.getElementById("settings-replay-tutorial");
 
 const leaderboardList = document.getElementById("leaderboard-list");
 const notesBoardWrap = document.getElementById("notes-board-wrap");
@@ -310,6 +311,11 @@ settingsChangeName.addEventListener("click", () => {
   usernameInput.value = currentUsername || "";
   returningToScreenAfterNameChange = showSettings;
   screenUsername.classList.remove("hidden");
+});
+settingsReplayTutorial.addEventListener("click", () => {
+  localStorage.removeItem("museum_tour_seen");
+  showHome();
+  initTour();
 });
 
 // -------------------------------------------------------------------
