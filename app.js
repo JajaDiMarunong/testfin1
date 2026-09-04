@@ -1739,7 +1739,7 @@ const TOUR_STEPS = [
   {
     target: null,
     illustration: "🖼️",
-    title: "Welcome to Museum AR Collection!",
+    title: "Welcome to the GBR Museum!",
     text: "Your personal gallery awaits. Scan artworks with AR to unlock hidden stories, take quizzes, and collect badges along the way.",
   },
   {
